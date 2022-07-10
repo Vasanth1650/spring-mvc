@@ -3,52 +3,61 @@ package net.javaguides.springboot.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import net.javaguides.springboot.service.UserService;
+import net.javaguides.springboot.service.CustomUserService;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	private UserService userService;
+	private CustomUserService userservice;
+	
+	@Autowired
+	private SimpleRedirectHandler successHandler;
+	
+	@Autowired
+	private JwtTokenHelper jwtTokenHelper;
+	
+	@Autowired
+	private AuthenticationEntryPoint authenticationEntryPoint;
+	
 	
 	@Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
     }
+	
+	
 	
 	@Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
-        auth.setPasswordEncoder(passwordEncoder());
-        return auth;
-    }
-	
 	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
-	
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(
 				 "/registration**",
+				 "/login",
 	                "/js/**",
 	                "/css/**",
-	                "/img/**","/leaves","/Employee/employee","/leave/leaves/page/{pageNo}","/","/showUpdate/{empid}","/showNewLeaveForm","/list",
+	                "/img/**","/leaves","/saveLeave","/Employee/employee","/leave/leaves/page/{pageNo}","/","/showUpdate/{empid}","/showNewLeaveForm","/list",
 	                "/deleteLeave/{id}").permitAll()
+
 		.anyRequest().authenticated()
 		.and()
 		.formLogin()
+		.successHandler(successHandler)
 		.loginPage("/login")
 		.permitAll()
 		.and()
@@ -59,5 +68,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.logoutSuccessUrl("/login?logout")
 		.permitAll();
 	}
+
+	
+	
+	
 
 }

@@ -60,11 +60,11 @@ public class LeaveController {
 	}
 	
 	@GetMapping("/deleteLeave/{empid}")
-	public void deleteEmployee(@PathVariable (value = "empid") long empid) {
+	public String deleteEmployee(@PathVariable (value = "empid") long empid) {
 		
 		// call delete employee method 
 		leaveService.deleteLeaveById(empid);
-	
+		return "redirect:/leaves";
 	}
 	
 	@GetMapping({"/list"})

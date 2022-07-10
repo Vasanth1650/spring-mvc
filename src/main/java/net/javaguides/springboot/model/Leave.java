@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Leave{
 	@Id
 	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private long empid;
 	
 	

@@ -114,8 +114,8 @@
 					<td th:text="${leave.leavereason}"></td>
 					<td th:text="${leave.leavestatus}"></td>
 					<td th:text="${leave.description}"></td>
-					<td> <a th:href="@{/showUpdate/{empid}(id=${leave.empid})}" class="btn btn-primary">Update</a>
-					    <a th:href="@{/deleteLeave/${leave.empid}}" class="btn btn-danger">Delete</a>
+					<td> <a th:href="@{/showUpdate/{empid}(empid=${leave.empid})}" class="btn btn-primary">Update</a>
+					    <a th:href="@{/deleteLeave/{empid}(empid=${leave.empid})}" class="btn btn-danger">Delete</a>
 					</td>
 				</tr>
 			</tbody>
