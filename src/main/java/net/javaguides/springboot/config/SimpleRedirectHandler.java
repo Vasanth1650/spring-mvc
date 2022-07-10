@@ -37,7 +37,7 @@ public class SimpleRedirectHandler implements AuthenticationSuccessHandler {
 		}
 
 		if (hasUserRole) {
-			redirectStrategy.sendRedirect(arg0, arg1, "/");
+			redirectStrategy.sendRedirect(arg0, arg1, "/dummy");
 		} else if (hasAdminRole) {
 			redirectStrategy.sendRedirect(arg0, arg1, "/list");
 		} else {

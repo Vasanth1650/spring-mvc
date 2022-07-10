@@ -60,6 +60,10 @@ public class User implements UserDetails{
 		
 	}
 
+	public User(String firstName, String lastName, String email2, String encode, List<Role> asList) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;

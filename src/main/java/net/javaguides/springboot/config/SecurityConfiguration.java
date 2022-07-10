@@ -51,7 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 				 "/login",
 	                "/js/**",
 	                "/css/**",
-	                "/img/**","/leaves","/saveLeave","/Employee/employee","/leave/leaves/page/{pageNo}","/","/showUpdate/{empid}","/showNewLeaveForm","/list",
+	                "/saveuser",
+	                "/img/**","/leaves","/registration","/welcome1","/saveLeave","/Employee/employee","/leave/leaves/page/{pageNo}","/","/showUpdate/{empid}","/showNewLeaveForm","/list",
 	                "/deleteLeave/{id}").permitAll()
 
 		.anyRequest().authenticated()
